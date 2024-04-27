@@ -2,9 +2,9 @@ import sys
 
 import pygame
 
-from data.utils import load_image
+from data.utils import load_image #type: ignore
 
-from data.entities import PhysicsEntity
+from data.entities import PhysicsEntity #type: ignore
 
 
 class Game:
@@ -17,11 +17,7 @@ class Game:
         self.screen = pygame.display.set_mode((640,480))
 
         self.clock = pygame.time.Clock()
-        '''
-        self.ing = pygame.image.load("00.png")
-        self.ing.set_colorkey((0,0,0))
-        self.ing = pygame.transform.scale(self.ing, (60,60))
-        '''
+
         self.ing_pos = [160,260]
 
         self.movement = [False, False, False, False]
@@ -30,17 +26,15 @@ class Game:
             'player' : load_image('entities/player.png')
 
         }
-        '''
-        self.collison_area = pygame.Rect(50,50,300,50)
-        '''
+
         self.player = PhysicsEntity(self, 'player', (50,50), (8,15))
 
     def run(self):
         while True:
             self.screen.fill((0,0,0))
 
-            self.player.update(self.movement[1]-self.movement[0], 0)
-            self.player.render(self.screen)
+            self.player.update((self.movement[1]-self.movement[0], 0))
+            self.player.rendering(self.screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -48,25 +42,18 @@ class Game:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w or event.key == pygame.K_UP:
-                        self.movement[0] = True
-                    if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                        self.movement[1] = True
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                        self.movement[2] = True
+                        self.movement[0] = True
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                        self.movement[3] = True
+                        self.movement[1] = True
 
 
                 if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_w or event.key == pygame.K_UP:
-                        self.movement[0] = False
-                    if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                        self.movement[1] = False
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                        self.movement[2] = False
+                        self.movement[0] = False
                     if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                        self.movement[3] = False
+                        self.movement[1] = False
+
 
             pygame.display.update()
             self.clock.tick(60)
