@@ -1,11 +1,15 @@
 import pygame
+import os
 
+BASE_IMG_PATH = '/Users/carterlandstrom/Downloads/data/images/'
 
-BASE_IMG_PATH = '/Users/carterlandstrom/Downloads/data/images/' 
-#For the BASE_IMG_PATH you will need to change it so it correctly directs to the files.
-#Most likely using vs or vscode just put /data/images/ but since Macs are dumb I need the 
-#extra stuff/
 def load_image(path):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
     img.set_colorkey((0,0,0))
     return img
+
+def load_images(path):
+    images = []
+    for ing_name in sorted(os.listdir(BASE_IMG_PATH + path)):
+        images.append(load_image(path + '/'+ ing_name))
+    return images
